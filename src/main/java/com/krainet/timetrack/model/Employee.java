@@ -1,56 +1,55 @@
 package com.krainet.timetrack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
-public class User implements UserDetails {
+@Table(name = "employee")
+@JsonIgnoreProperties
+public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    String userId;
+    @Column(name = "employee_id", nullable = false)
+    String employeeId;
 
-    @ManyToOne
-    Role userRole;
+    @OneToOne
+    @JsonProperty("role")
+    Role employeeRole;
 
-    @Column(name = "user_name", nullable = false)
-    String userName;
+    @Column(name = "employee_name")
+    String employeeName;
 
-    @Column(name = "user_login", nullable = false)
-    String userLogin;
+    @Column(name = "employee_login", nullable = false)
+    @JsonProperty("login")
+    String username;
 
-    @Column(name = "user_password", nullable = false)
-    String userPassword;
+    @Column(name = "employee_password", nullable = false)
+    @JsonProperty("password")
+    String password;
 
-    @Column(name = "user_email", nullable = false)
-    String userEmail;
+    @Column(name = "employee_email", nullable = false)
+    @JsonProperty("email")
+    String employeeEmail;
+
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    List<Record> records;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.userPassword;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.userName;
     }
 
     @Override
