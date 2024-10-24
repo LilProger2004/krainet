@@ -1,7 +1,8 @@
-package com.krainet.timetrack.config;
+package com.krainet.timetrack.config.security;
 
-import com.krainet.timetrack.model.User;
-import com.krainet.timetrack.repository.UserRepository;
+import com.krainet.timetrack.config.security.MyUserDetails;
+import com.krainet.timetrack.model.Employee;
+import com.krainet.timetrack.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,12 +15,12 @@ import java.util.Optional;
 public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepo;
+    private EmployeeRepository userRepo;
 
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> user = userRepo.findByUserLogin(userName);
+        Optional<Employee> user = userRepo.findByUsername(userName);
         return user.map(MyUserDetails::new)
                 .orElseThrow(()->new UsernameNotFoundException(userName+"There is not such user in REPO"));
     }

@@ -1,13 +1,14 @@
-package com.krainet.timetrack.config;
+package com.krainet.timetrack.config.security;
 
-import com.krainet.timetrack.config.jwt.JwtAuthenticationFilter;
-import com.krainet.timetrack.service.UserService;
+import com.krainet.timetrack.config.security.authjwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,8 +30,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UserService userService;
-    @Bean //возвращаем кастомный MyUserDetailsService, который напишем далее
+
+    @Bean //возвращаем кастомный MyUserDetailsService
     public UserDetailsService userDetailsService() {
         return new MyUserDetailsService();
     }
@@ -50,31 +51,29 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/main/**").permitAll() //вход без авторизации
                         .requestMatchers("/user/**").authenticated()
-                        .requestMatchers("/product/**").permitAll()
-                        .requestMatchers("/").hasRole("USER")
-                        .requestMatchers("/c/l").hasRole("SELLER")
-                        .requestMatchers("/seller/add").hasRole("ADMIN")
-                        .requestMatchers("seller/**").permitAll()
+                        .requestMatchers("/record/**").authenticated()
                         .anyRequest().permitAll())
-                        .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
-                                .authenticationProvider(authenticationProvider())
-                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin((form) -> form
-                        .loginPage("/main/login")
-                        .permitAll()
-                        .defaultSuccessUrl("/main/")
-                )
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(LogoutConfigurer::permitAll)
                 .build();
     }
 
-    @Bean //Ставим степень кодировки, с которой кодировали пароль в базе
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(5);
     }
 
+
     @Bean
-    GrantedAuthorityDefaults grantedAuthorityDefaults(){
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
+
+    @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults("");
     }
 }

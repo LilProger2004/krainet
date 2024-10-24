@@ -1,6 +1,6 @@
-package com.krainet.timetrack.config.jwt;
+package com.krainet.timetrack.config.security.authjwt;
 
-import com.krainet.timetrack.service.UserService;
+import com.krainet.timetrack.service.EmployeeService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
     private final JwtService jwtService;
-    private final UserService userService;
+    private final EmployeeService employeeService;
+
+    //Создание кастомного фильтра который проверяет наличие и данные токена
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var authHeader = request.getHeader(HEADER_NAME);
@@ -38,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         var username = jwtService.extractUserName(jwt);
 
         if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService
+            UserDetails userDetails = employeeService
                     .userDetailsService()
                     .loadUserByUsername(username);
 
