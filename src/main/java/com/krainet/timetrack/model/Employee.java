@@ -29,9 +29,6 @@ public class Employee implements UserDetails {
     @JsonProperty("role")
     Role employeeRole;
 
-    @Column(name = "employee_name")
-    String employeeName;
-
     @Column(name = "employee_login", nullable = false)
     @JsonProperty("login")
     String username;
@@ -46,6 +43,9 @@ public class Employee implements UserDetails {
 
     @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     List<Record> records;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Task> tasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
