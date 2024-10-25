@@ -33,7 +33,7 @@ public class EmployerController {
     @GetMapping("/getUser/{id}")
     public String viewUserById(@PathVariable(name = "id") String id) {
         try {
-            return "mrmrk" + new ObjectMapper().writeValueAsString(employeeService.findById(id));
+            return new ObjectMapper().writeValueAsString(employeeService.findById(id));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

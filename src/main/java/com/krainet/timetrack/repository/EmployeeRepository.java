@@ -14,7 +14,6 @@ import java.util.Optional;
  * Репозиторий  содержащий CRUD операции над моделью Employee
  *
  */
-@Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Optional<Employee> findByUsername(String employeeLogin);
 

@@ -32,7 +32,7 @@ public class Employee implements UserDetails {
     @JsonProperty("role")
     Role employeeRole;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "employee_login", nullable = false)
     @JsonProperty("login")
     String username;
 
