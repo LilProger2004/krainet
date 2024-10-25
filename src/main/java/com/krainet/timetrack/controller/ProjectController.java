@@ -2,12 +2,12 @@ package com.krainet.timetrack.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.krainet.timetrack.model.Project;
 import com.krainet.timetrack.service.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("project/")
@@ -16,20 +16,20 @@ public class ProjectController {
 
     final ProjectService projectService;
 
-    @GetMapping("/getAllProjects")
-    public String viewAllProjects() {
+    @GetMapping("/getProject/{id}")
+    public String viewAllProjects(@PathVariable(name = "id") String id) {
         try {
-            return new ObjectMapper().writeValueAsString(projectService.findAllProjects());
+            return new ObjectMapper().writeValueAsString(projectService.findById(id));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    @GetMapping("/getProject/{id}")
-    public String viewAllProjects(@PathVariable(name = "id") String id) {
+    @GetMapping("/getProjectTasks/{id}")
+    public String viewAllProjectsTasks(@PathVariable(name = "id") String id) {
         try {
-            return new ObjectMapper().writeValueAsString(projectService.findById(id));
+            return new ObjectMapper().writeValueAsString(projectService.findById(id).getTasks());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
