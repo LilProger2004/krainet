@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MainController {
 
-    final EmployeeService service;
     final AuthenticationService authenticationService;
 
 
@@ -23,10 +22,5 @@ public class MainController {
     @PostMapping(path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
     public  String getAuthUser(@RequestBody String request) {
         return "Use this token to authorization your requests : " + authenticationService.signIn(request);
-    }
-
-    @GetMapping("/test")
-    public  String getTest() {
-        return "tyu";
     }
 }
