@@ -37,9 +37,4 @@ public class MainController {
     public  String getAuthUser(@RequestBody String request) {
         return "Use this token to authorization your requests : " + authenticationService.signIn(request);
     }
-
-    @GetMapping("/test")
-    public String gtt() {
-        return "rfrgtrg";
-    }
 }
