@@ -17,10 +17,28 @@ services:
       POSTGRES_DB: timetrack
       POSTGRES_USER: krainet
       POSTGRES_PASSWORD: 1234
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./struct/db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:7
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+
 
 volumes:
+  db-data:
   postgres_data:
+  pgadmin-data:
