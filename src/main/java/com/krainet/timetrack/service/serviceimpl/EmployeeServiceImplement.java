@@ -17,23 +17,35 @@ public class EmployeeServiceImplement implements EmployeeService {
         return employeeRepository.findByUsername(login).orElseThrow();
     }
 
-    @Override
-    public boolean existsByUsername(String employeeName) {
-        return employeeRepository.existsByUsername(employeeName);
-    }
-
-    @Override
-    public boolean existsByEmail(String email) {
-        return employeeRepository.existsByEmployeeEmail(email);
-    }
 
     @Override
     public UserDetailsService userDetailsService() {
         return this::findByLogin;
     }
 
+
     @Override
     public void createUser(Employee employee) {
         employeeRepository.save(employee);
+    }
+
+    @Override
+    public void deleteEmployer(String employeeId) {
+        employeeRepository.deleteByEmployeeId(employeeId);
+    }
+
+    @Override
+    public void updateEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public Employee findById(String employeeId) {
+        return employeeRepository.findByEmployeeId(employeeId);
+    }
+
+    @Override
+    public boolean existById(String employeeId) {
+        return employeeRepository.existsByEmployeeId(employeeId);
     }
 }

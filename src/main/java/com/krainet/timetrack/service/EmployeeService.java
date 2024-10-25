@@ -6,9 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface EmployeeService {
 
     Employee findByLogin(String login);
-    boolean existsByUsername(String employeeName);
-    boolean existsByEmail(String email);
     UserDetailsService userDetailsService();
     void createUser(Employee employee);
-
+    void deleteEmployer(String employeeId);
+    void updateEmployee(Employee employee);
+    Employee findById(String employeeId);
+    boolean existById(String employeeId);
 }
