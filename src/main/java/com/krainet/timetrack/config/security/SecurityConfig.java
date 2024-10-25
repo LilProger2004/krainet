@@ -52,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/main/**").permitAll() //вход без авторизации
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/record/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
