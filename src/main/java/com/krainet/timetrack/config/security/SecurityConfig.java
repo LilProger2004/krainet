@@ -23,6 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+/**
+ *
+ * Класс отвечающий за безопасность приложения
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -44,13 +49,15 @@ public class SecurityConfig {
         return provider;
     }
 
-    @Bean
+    @Bean //создание SecurityFilterChain это цепочка способов проверки запроса
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/main/**").permitAll() //вход без авторизации
                         .requestMatchers("/employer/**").authenticated()
+                        .requestMatchers("/task/**").authenticated()
+                        .requestMatchers("/project/**").authenticated()
                         .requestMatchers("/record/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
@@ -61,19 +68,20 @@ public class SecurityConfig {
                 .build();
     }
 
-    @Bean
+
+    @Bean //кодирование пароля
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(5);
     }
 
 
-    @Bean
+    @Bean // метод который проводит аунтефикацию пользователя
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
             throws Exception {
         return config.getAuthenticationManager();
     }
 
-    @Bean
+    @Bean // используется для удаления префикса "HAS-" при проверке роли
     GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults("");
     }

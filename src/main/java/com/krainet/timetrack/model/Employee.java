@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * this ORM entity
+ */
 @Getter
 @Setter
 @Entity
@@ -29,7 +32,7 @@ public class Employee implements UserDetails {
     @JsonProperty("role")
     Role employeeRole;
 
-    @Column(name = "employee_login", nullable = false)
+    @Column(name = "username", nullable = false)
     @JsonProperty("login")
     String username;
 

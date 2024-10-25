@@ -31,9 +31,9 @@ public class EmployerController {
      * @return информация по конкретному пользователю
      */
     @GetMapping("/getUser/{id}")
-    public String viewUserById(@PathVariable String id) {
+    public String viewUserById(@PathVariable(name = "id") String id) {
         try {
-            return new ObjectMapper().writeValueAsString(employeeService.findById(id));
+            return "mrmrk" + new ObjectMapper().writeValueAsString(employeeService.findById(id));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

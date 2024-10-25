@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ *
+ * Репозиторий  содержащий CRUD операции над моделью Record
+ *
+ */
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
     @Override

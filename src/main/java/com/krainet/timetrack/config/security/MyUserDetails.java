@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * класс преднозначенный для перевода пользователя в формат понятный SpringSecurity
+ *
+ */
 public class MyUserDetails implements UserDetails {
     private final Employee employee;
     public MyUserDetails(Employee employee){

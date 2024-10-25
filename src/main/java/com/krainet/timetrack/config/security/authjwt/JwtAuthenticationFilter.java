@@ -17,14 +17,21 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ *
+ * класс предназначен для создания дополнительного фильтра аунтефикации пользователя
+ * а именно аунтефикации с помощь JWT токена
+ *
+ */
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public static final String BEARER_PREFIX = "Bearer ";
     public static final String HEADER_NAME = "Authorization";
-    private final JwtService jwtService;
-    private final EmployeeService employeeService;
+     final JwtService jwtService;
+     final EmployeeService employeeService;
 
     //Создание кастомного фильтра который проверяет наличие и данные токена
     @Override

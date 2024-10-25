@@ -9,6 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
+/**
+ *
+ * Класс контролер создержащий мапинги
+ *
+ */
 @RestController
 @RequestMapping("project/")
 @RequiredArgsConstructor
