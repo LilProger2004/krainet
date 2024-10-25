@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/main/**").permitAll() //вход без авторизации
-                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/employer/**").authenticated()
                         .requestMatchers("/record/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
