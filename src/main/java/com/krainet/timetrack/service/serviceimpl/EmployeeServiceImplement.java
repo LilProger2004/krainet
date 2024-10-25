@@ -19,12 +19,12 @@ public class EmployeeServiceImplement implements EmployeeService {
 
     @Override
     public boolean existsByUsername(String employeeName) {
-        return false;
+        return employeeRepository.existsByUsername(employeeName);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return false;
+        return employeeRepository.existsByEmployeeEmail(email);
     }
 
     @Override
