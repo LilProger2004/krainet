@@ -14,4 +14,14 @@ public class UserController {
     public String example() {
         return "Hello, world!";
     }
+
+    @GetMapping
+    public List<Employee> getAllEmployees() {
+        return employeeService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
+        return new ObjectMapper().writeValue(employeeService.findById(id);
+    }
 }
