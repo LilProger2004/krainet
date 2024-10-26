@@ -59,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/task/**").authenticated()
                         .requestMatchers("/project/**").authenticated()
                         .requestMatchers("/record/**").authenticated()
-                        .requestMatchers("/admin/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

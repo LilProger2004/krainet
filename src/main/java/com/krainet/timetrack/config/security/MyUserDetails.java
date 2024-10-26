@@ -20,11 +20,10 @@ public class MyUserDetails implements UserDetails {
     public MyUserDetails(Employee employee){
         this.employee = employee;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(employee.getEmployeeRole().getRoleName().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
